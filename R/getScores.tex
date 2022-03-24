@@ -1,0 +1,419 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={getScores.R},
+            pdfauthor={denis\_000},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{getScores.R}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{denis\_000}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{Tue Aug 28 12:35:54 2018}
+
+
+\begin{document}
+\maketitle
+
+Statistical \& multivariate scores for systematic workflow
+standardization
+
+Computes statistical \& multivariate scores to address the question of
+reproducibility of sample preparation workflows. It is compatible with
+mass spectrometry imaging as well as fingerprinting data (or any other
+multivariate data). This function is the main function in the package
+which calls internally the other functions available within this
+package.
+
+@param data.mat A matrix holding the intensity information of all
+spectra with rows having the samples (pixels or spectra) and columns
+denoting variables (m/z features in case of MS).
+
+@param sample.labels A character vector of length
+\code{nrow(data.matrix)} holding the labels of the samples (pixels or
+spectra).
+
+@param n.pc Number of principal components to be included into the
+calculation of the scores. Defaults to 3. Note that the visulaization
+will be always based on 3 PCs.
+
+@param n.samples The size of the sampling pool for foldchange and
+correlation analysis. Defaults to 3000.
+
+@param compute.r2 A logical whether to compute coefficient of
+determination (r2) via \code{randR2} method. Default is TRUE.
+
+@param compute.fc A logical whether to perform natural fold change
+analysis via \code{randR2} method. Default is TRUE.
+
+@details This function tries to evaluate the relative similarity between
+multivariate samples and can be used to assess reproducibility of data
+generation for method development and standardization questions. It
+generates a 3D plot of the supplied dataset \code{data.mat} color-coded
+by the specific grouping provided by \code{sample.labels}. Along with
+the plot, it generates unbiased scores that describe the relative
+scatter and overlap of the samples supplied as a plot legend. These
+scores include covariance per group, mean absolute deviation (MAD) per
+group, euclidean distances between the centers of the groups, overall
+within-class scatter, between-class scatter and a measure of group
+overlap (J-overlap). Additionally, the function computes the coefficient
+of determination based on randomized sub-sampling of the observations by
+calling \code{randR2} generating a boxplot in the process. The function
+also calls \code{natFC} function to evaluate the so called natural
+foldchange on a paired randomly chosen combinations of observations
+sampled from \code{data.mat}. For each pair of samples the function
+computes \code{max(|5th FC precentile|, |95th FC percentile|)}. The
+computed values are then pooled into a list named based on the supplied
+groups as indicated in \code{sample.labels} and a boxplot is plotted.
+
+Note that the within-class and between-class scatter as well as
+covariance scores are generated by taking the trace of the matrices
+rather than the determinants as this is more stable.
+
+For more details about the generated scores and for citation please
+refere to ``Erich, Katrin, et al. Biochimica et Biophysica Acta (BBA)-
+Proteins and Proteomics 1865.7 (2017): 907-915''.
+
+@return returns a list of four objects; the within-class scatter matrix
+\code{Ws}, the between-class scatter matrix \code{Bs} , a list of
+\code{R2} values per group and a list of \code{natFC} per group.
+Additionally it generates four plots; the variance per principal
+component, a boxplot of \code{R2} values per group, a boxplot of
+\code{natFC} per group and an rgl 3D plot showing the PCA space with the
+computed scores as a plot legend.
+
+@export
+
+@examples data(exampleScores) test \textless{}-
+msiScores::getScores(data.mat = mat, sample.labels = lab)
+
+@author Denis Abu Sammour, \email{d.abu-sammour@hs-mannheim.de}
+
+@references Erich, Katrin, et al. ``Scores for standardization of
+on-tissue digestion of formalin-fixed paraffin-embedded tissue in
+MALDI-MS imaging.'' Biochimica et Biophysica Acta (BBA)-Proteins and
+Proteomics 1865.7 (2017): 907-915.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{getScores     =}\StringTok{ }\ControlFlowTok{function}\NormalTok{(data.mat, sample.labels, }\DataTypeTok{n.pc =} \DecValTok{3}\NormalTok{, }\DataTypeTok{n.samples =} \DecValTok{3000}\NormalTok{, }\DataTypeTok{compute.r2 =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{compute.fc =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{\{}
+
+       \CommentTok{#// define the return list}
+\NormalTok{       returnList                  =}\StringTok{ }\KeywordTok{list}\NormalTok{()}
+
+       \CommentTok{#// perfom pca}
+
+       \KeywordTok{cat}\NormalTok{(}\StringTok{"performing PCA .. "}\NormalTok{, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{       pc                            =}\StringTok{ }\KeywordTok{prcomp}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ data.mat, }\DataTypeTok{retx =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{center =}\NormalTok{ T, }\DataTypeTok{scale =}\NormalTok{ F)}
+
+       \CommentTok{#// plot the variances}
+       \KeywordTok{windows}\NormalTok{()}
+\NormalTok{       msiScores}\OperatorTok{::}\KeywordTok{pcChart}\NormalTok{(pc)}
+
+\NormalTok{       coords                        =}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(pc}\OperatorTok{$}\NormalTok{x[ , }\DecValTok{1}\OperatorTok{:}\NormalTok{n.pc]) }\CommentTok{# extract the points coordinates in pca}
+
+       \CommentTok{#// RGL - plot 1st figure without ellipsoids}
+
+       \CommentTok{#// find the center for each axis}
+\NormalTok{       lim <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x)\{}\KeywordTok{c}\NormalTok{(}\KeywordTok{min}\NormalTok{(x), }\KeywordTok{max}\NormalTok{(x)) }\OperatorTok{*}\StringTok{ }\FloatTok{1.1}\NormalTok{\}}
+\NormalTok{       xlim                          =}\StringTok{ }\KeywordTok{lim}\NormalTok{(coords[,}\DecValTok{1}\NormalTok{])}
+\NormalTok{       ylim                          =}\StringTok{ }\KeywordTok{lim}\NormalTok{(coords[,}\DecValTok{2}\NormalTok{])}
+\NormalTok{       zlim                          =}\StringTok{ }\KeywordTok{lim}\NormalTok{(coords[,}\DecValTok{3}\NormalTok{])}
+
+\NormalTok{       axes                          =}\StringTok{ }\KeywordTok{rbind}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\KeywordTok{median}\NormalTok{(xlim), ylim[}\DecValTok{1}\NormalTok{] }\OperatorTok{*}\DecValTok{1}\NormalTok{, zlim[}\DecValTok{2}\NormalTok{]}\OperatorTok{*}\DecValTok{1}\NormalTok{),}
+                                             \KeywordTok{c}\NormalTok{(xlim[}\DecValTok{2}\NormalTok{] }\OperatorTok{*}\StringTok{ }\DecValTok{1}\NormalTok{, }\KeywordTok{median}\NormalTok{(ylim), zlim[}\DecValTok{1}\NormalTok{] }\OperatorTok{*}\StringTok{ }\DecValTok{1}\NormalTok{),}
+                                             \KeywordTok{c}\NormalTok{(xlim[}\DecValTok{2}\NormalTok{] }\OperatorTok{*}\StringTok{ }\DecValTok{1}\NormalTok{, ylim[}\DecValTok{1}\NormalTok{] }\OperatorTok{*}\StringTok{ }\DecValTok{1}\NormalTok{, }\KeywordTok{median}\NormalTok{(zlim)))}
+
+       \CommentTok{#// assign points to  groups}
+\NormalTok{       pts                           =}\StringTok{ }\KeywordTok{list}\NormalTok{()            }\CommentTok{# to hold the points coordinates in pca spcace}
+\NormalTok{       ctrs                          =}\StringTok{ }\KeywordTok{list}\NormalTok{()            }\CommentTok{# to hold the centers of groups}
+\NormalTok{       uniqueLabels                  =}\StringTok{ }\KeywordTok{unique}\NormalTok{(sample.labels)}
+\NormalTok{       numGroups                     =}\StringTok{ }\KeywordTok{length}\NormalTok{(uniqueLabels)}
+
+       \ControlFlowTok{for}\NormalTok{ (igroup }\ControlFlowTok{in} \DecValTok{1} \OperatorTok{:}\StringTok{ }\NormalTok{numGroups)}
+\NormalTok{       \{}
+\NormalTok{              pts[[igroup]]       =}\StringTok{ }\NormalTok{coords[}\KeywordTok{which}\NormalTok{(sample.labels }\OperatorTok{==}\StringTok{ }\NormalTok{uniqueLabels[igroup]), ]}
+\NormalTok{              ctrs[[igroup]]      =}\StringTok{ }\KeywordTok{colMeans}\NormalTok{(pts[[igroup]])}
+\NormalTok{       \}}
+
+       \CommentTok{#// workout the colors}
+       \CommentTok{#cdf                         = with(data.frame(labels = sample.labels),}
+       \CommentTok{#                                   data.frame(labels = uniqueLabels,}
+       \CommentTok{#                                              color = RColorBrewer::brewer.pal(n = length(uniqueLabels), name = "Set1")))}
+
+\NormalTok{       tmpCol                      =}\StringTok{ }\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{length}\NormalTok{(uniqueLabels) }\OperatorTok{<}\StringTok{ }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{, }\KeywordTok{length}\NormalTok{(uniqueLabels)) }\CommentTok{# used only for Ebrewer.pal function}
+
+\NormalTok{       cdf                         =}\StringTok{ }\KeywordTok{merge}\NormalTok{(}\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ sample.labels, }\DataTypeTok{stringsAsFactors =}\NormalTok{ F),}
+                                           \KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ uniqueLabels,}
+                                           \DataTypeTok{color =}\NormalTok{ RColorBrewer}\OperatorTok{::}\KeywordTok{brewer.pal}\NormalTok{(}\DataTypeTok{n =}\NormalTok{ tmpCol, }\DataTypeTok{name =} \StringTok{"Set1"}\NormalTok{)[}\DecValTok{1}\OperatorTok{:}\NormalTok{numGroups],}
+                                           \DataTypeTok{stringsAsFactors =}\NormalTok{ F))}
+
+\NormalTok{       cols                        =}\StringTok{ }\NormalTok{cdf}\OperatorTok{$}\NormalTok{color}
+\NormalTok{       uniqueCols                  =}\StringTok{ }\KeywordTok{unique}\NormalTok{(cdf}\OperatorTok{$}\NormalTok{color)}
+
+       \CommentTok{#// find the set of all combinations of all groups - this is needed to draw the distances between groups}
+\NormalTok{       distCombs                     =}\StringTok{ }\KeywordTok{combn}\NormalTok{(}\KeywordTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, numGroups), }\DataTypeTok{m =} \DecValTok{2}\NormalTok{)}
+
+       \CommentTok{#// append the above combination matirx with corresponding euclidean distances between respective centroids}
+\NormalTok{       distCombs                     =}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{firstGroup =}\NormalTok{ distCombs[}\DecValTok{1}\NormalTok{, ],}
+                                                  \DataTypeTok{secondGroup =}\NormalTok{ distCombs[}\DecValTok{2}\NormalTok{, ],}
+                                                  \DataTypeTok{EuDistance =} \OtherTok{NA}\NormalTok{,}
+                                                  \DataTypeTok{colour =} \KeywordTok{sort}\NormalTok{(}\KeywordTok{rainbow}\NormalTok{(}\KeywordTok{ncol}\NormalTok{(distCombs) }\OperatorTok{*}\StringTok{ }\DecValTok{3}\NormalTok{), }\DataTypeTok{decreasing =} \OtherTok{TRUE}\NormalTok{)[}\DecValTok{1}\OperatorTok{:}\KeywordTok{ncol}\NormalTok{(distCombs)],}
+
+                                                  \DataTypeTok{stringsAsFactors =} \OtherTok{FALSE}\NormalTok{)}
+
+\NormalTok{       withinGroupVariance           =}\StringTok{ }\KeywordTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{, numGroups)}
+
+       \CommentTok{#// To compute the within class scatter and between class scatter:}
+
+\NormalTok{       Ws                            =}\StringTok{ }\NormalTok{DiscriMiner}\OperatorTok{::}\KeywordTok{withinSS}\NormalTok{(}\DataTypeTok{variables =}\NormalTok{ coords, }\DataTypeTok{group =}\NormalTok{ sample.labels)}
+\NormalTok{       Bs                            =}\StringTok{ }\NormalTok{DiscriMiner}\OperatorTok{::}\KeywordTok{betweenSS}\NormalTok{(}\DataTypeTok{variables =}\NormalTok{ coords, }\DataTypeTok{group =}\NormalTok{ sample.labels)}
+
+\NormalTok{       returnList}\OperatorTok{$}\NormalTok{Ws               =}\StringTok{ }\NormalTok{Ws}
+\NormalTok{       returnList}\OperatorTok{$}\NormalTok{BS               =}\StringTok{ }\NormalTok{Bs}
+
+       \CommentTok{#// MAD value}
+
+\NormalTok{       MAD                         =}\StringTok{ }\KeywordTok{c}\NormalTok{()}
+
+       \ControlFlowTok{for}\NormalTok{ (iii }\ControlFlowTok{in} \DecValTok{1} \OperatorTok{:}\StringTok{ }\KeywordTok{length}\NormalTok{(uniqueLabels))}
+\NormalTok{       \{}
+\NormalTok{              idx           =}\StringTok{ }\KeywordTok{which}\NormalTok{(sample.labels }\OperatorTok{==}\StringTok{ }\NormalTok{uniqueLabels[iii])}
+\NormalTok{              numPoints     =}\StringTok{ }\KeywordTok{length}\NormalTok{(idx)}
+\NormalTok{              coords_       =}\StringTok{ }\NormalTok{coords[idx, ]}
+\NormalTok{              roiCenter     =}\StringTok{ }\KeywordTok{colMeans}\NormalTok{(coords_[ , ])}
+
+\NormalTok{              distances     =}\StringTok{ }\NormalTok{(}\KeywordTok{rowSums}\NormalTok{(}\KeywordTok{abs}\NormalTok{(coords_ }\OperatorTok{-}\StringTok{ }\NormalTok{roiCenter))) }\CommentTok{#sqrt(rowSums((coords_ - roiCenter)**2))}
+
+\NormalTok{              MAD[iii]      =}\StringTok{ }\KeywordTok{mean}\NormalTok{(distances)}
+\NormalTok{       \}}
+
+\NormalTok{       sdMAD                       =}\StringTok{ }\KeywordTok{sd}\NormalTok{(MAD, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{)}
+
+       \ControlFlowTok{for}\NormalTok{ (ictrs }\ControlFlowTok{in} \DecValTok{1} \OperatorTok{:}\StringTok{ }\KeywordTok{nrow}\NormalTok{(distCombs))}
+\NormalTok{       \{}
+\NormalTok{              distCombs}\OperatorTok{$}\NormalTok{EuDistance[ictrs]   =}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{((ctrs[[distCombs}\OperatorTok{$}\NormalTok{firstGroup[ictrs]]] }\OperatorTok{-}\StringTok{ }\NormalTok{ctrs[[distCombs}\OperatorTok{$}\NormalTok{secondGroup[ictrs]]])}\OperatorTok{**}\DecValTok{2}\NormalTok{))}
+\NormalTok{       \}}
+
+       \CommentTok{#// find the within-group variances}
+       \ControlFlowTok{for}\NormalTok{ (icov }\ControlFlowTok{in} \DecValTok{1} \OperatorTok{:}\StringTok{ }\NormalTok{numGroups)}
+\NormalTok{       \{}
+\NormalTok{              covMat                                  =}\StringTok{ }\KeywordTok{cov}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ coords[}\KeywordTok{which}\NormalTok{(sample.labels }\OperatorTok{==}\StringTok{ }\NormalTok{uniqueLabels[icov]), ])}
+\NormalTok{              withinGroupVariance[icov]               =}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{diag}\NormalTok{(covMat)) }\CommentTok{# based on the trace not deteminant}
+
+\NormalTok{       \}}
+
+       \ControlFlowTok{if}\NormalTok{(compute.r2)}
+\NormalTok{       \{}
+              \CommentTok{#// compute the correlations per group}
+              \KeywordTok{cat}\NormalTok{(}\StringTok{"computing coefficient of determination on randomly chosen subset of spectra per group .. "}\NormalTok{, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{              r2                                               =}\StringTok{ }\NormalTok{msiScores}\OperatorTok{::}\KeywordTok{randR2}\NormalTok{(}\DataTypeTok{data.mat =}\NormalTok{ data.mat, }\DataTypeTok{sample.labels =}\NormalTok{ sample.labels, }\DataTypeTok{n.samples =}\NormalTok{ n.samples)}
+
+\NormalTok{              returnList}\OperatorTok{$}\NormalTok{R2List =}\StringTok{ }\NormalTok{r2}
+
+\NormalTok{       \}}
+
+       \ControlFlowTok{if}\NormalTok{(compute.fc)}
+\NormalTok{       \{}
+              \CommentTok{#// compute foldchange}
+              \KeywordTok{cat}\NormalTok{(}\StringTok{"computing natural foldchange on randomly chosen subset of spectra per group .. "}\NormalTok{, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{              fc                                               =}\StringTok{ }\NormalTok{msiScores}\OperatorTok{::}\KeywordTok{natFC}\NormalTok{(}\DataTypeTok{data.mat =}\NormalTok{ data.mat, }\DataTypeTok{sample.labels =}\NormalTok{ sample.labels, }\DataTypeTok{n.samples =}\NormalTok{ n.samples)}
+
+\NormalTok{              returnList}\OperatorTok{$}\NormalTok{FCList =}\StringTok{ }\NormalTok{fc}
+\NormalTok{       \}}
+
+       \KeywordTok{cat}\NormalTok{(}\StringTok{"plotting pca .. "}\NormalTok{, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{       rgl}\OperatorTok{::}\KeywordTok{open3d}\NormalTok{()}
+\NormalTok{       rgl}\OperatorTok{::}\KeywordTok{par3d}\NormalTok{(}\DataTypeTok{windowRect =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{23}\NormalTok{,}\DecValTok{1920}\NormalTok{,}\DecValTok{1040}\NormalTok{))}
+\NormalTok{       rgl}\OperatorTok{::}\KeywordTok{rgl.viewpoint}\NormalTok{(}\DataTypeTok{theta =} \DecValTok{15}\NormalTok{, }\DataTypeTok{phi =} \DecValTok{3}\NormalTok{, }\DataTypeTok{fov =} \DecValTok{50}\NormalTok{, }\DataTypeTok{zoom =} \FloatTok{0.9}\NormalTok{)}
+       \CommentTok{#par3d(cex = 2.5)}
+
+\NormalTok{       rgl}\OperatorTok{::}\KeywordTok{par3d}\NormalTok{(}\DataTypeTok{cex =} \DecValTok{2}\NormalTok{)}
+\NormalTok{       rgl}\OperatorTok{::}\KeywordTok{plot3d}\NormalTok{(coords[ , }\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{], }\DataTypeTok{xlab =} \StringTok{""}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{""}\NormalTok{, }\DataTypeTok{zlab =} \StringTok{""}\NormalTok{, }\DataTypeTok{size =} \DecValTok{20}\NormalTok{, }\DataTypeTok{col =}\NormalTok{ cols, }\DataTypeTok{box =}\NormalTok{ F, }\DataTypeTok{alpha =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{axes =}\NormalTok{ F)       }\CommentTok{# plot the pixel points - All}
+
+\NormalTok{       rgl}\OperatorTok{::}\KeywordTok{axes3d}\NormalTok{(}\DataTypeTok{edges =} \KeywordTok{c}\NormalTok{(}\StringTok{"x-+"}\NormalTok{, }\StringTok{"y+-"}\NormalTok{, }\StringTok{"z+-"}\NormalTok{), }\DataTypeTok{labels =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"PC1"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"PC2"}\NormalTok{, }\DataTypeTok{zlab =} \StringTok{"PC3"}\NormalTok{,}\DataTypeTok{tick =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{nticks =} \DecValTok{5}\NormalTok{,}
+                   \DataTypeTok{box=}\NormalTok{F, }\DataTypeTok{expand =} \FloatTok{1.03}\NormalTok{, }\DataTypeTok{lwd =} \DecValTok{4}\NormalTok{, }\DataTypeTok{scale =} \DecValTok{10}\NormalTok{, }\DataTypeTok{line =} \KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{60}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{))}
+\NormalTok{       rgl}\OperatorTok{::}\KeywordTok{grid3d}\NormalTok{(}\DataTypeTok{side =} \KeywordTok{c}\NormalTok{( }\StringTok{"y-+"}\NormalTok{, }\StringTok{"y++"}\NormalTok{))}
+\NormalTok{       rgl}\OperatorTok{::}\KeywordTok{rgl.texts}\NormalTok{(axes[}\DecValTok{1}\NormalTok{, ], }\DataTypeTok{text =} \StringTok{"PC1"}\NormalTok{, }\DataTypeTok{adj =} \KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\FloatTok{2.8}\NormalTok{), }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{, }\DataTypeTok{size =} \DecValTok{3}\NormalTok{)}
+\NormalTok{       rgl}\OperatorTok{::}\KeywordTok{rgl.texts}\NormalTok{(axes[}\DecValTok{2}\NormalTok{, ], }\DataTypeTok{text =} \StringTok{"PC2"}\NormalTok{, }\DataTypeTok{adj =} \KeywordTok{c}\NormalTok{(}\OperatorTok{-}\FloatTok{1.5}\NormalTok{, }\DecValTok{0}\NormalTok{), }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{, }\DataTypeTok{size =} \DecValTok{3}\NormalTok{)}
+\NormalTok{       rgl}\OperatorTok{::}\KeywordTok{rgl.texts}\NormalTok{(axes[}\DecValTok{3}\NormalTok{, ], }\DataTypeTok{text =} \StringTok{"PC3"}\NormalTok{, }\DataTypeTok{adj =} \KeywordTok{c}\NormalTok{(}\OperatorTok{-}\FloatTok{1.5}\NormalTok{, }\FloatTok{2.5}\NormalTok{), }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{, }\DataTypeTok{size =} \DecValTok{3}\NormalTok{)}
+       \CommentTok{#rgl.bg(color = "beige")}
+
+       \KeywordTok{palette}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(uniqueCols)) }\CommentTok{# adjust the palette cause for some reason legend3d depends on it}
+       \CommentTok{#palette(as.character(cdf$color[which(cdf$labels %in% uniqueLabels)]))}
+
+\NormalTok{       rgl}\OperatorTok{::}\KeywordTok{legend3d}\NormalTok{(}\StringTok{"topleft"}\NormalTok{ , }\DataTypeTok{horiz =} \OtherTok{FALSE}\NormalTok{,}
+                \DataTypeTok{title =} \StringTok{"PCA Space"}\NormalTok{,}
+                \KeywordTok{c}\NormalTok{(uniqueLabels,}
+                  \KeywordTok{paste}\NormalTok{(}\StringTok{"covariance = "}\NormalTok{, }\KeywordTok{round}\NormalTok{(withinGroupVariance, }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{)),}
+                  \KeywordTok{paste}\NormalTok{(}\StringTok{"MAD = "}\NormalTok{, }\KeywordTok{round}\NormalTok{(MAD, }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{)),}
+                  \KeywordTok{paste}\NormalTok{(}\StringTok{"Eu distance = "}\NormalTok{, }\KeywordTok{round}\NormalTok{(distCombs}\OperatorTok{$}\NormalTok{EuDistance, }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{)),}
+                  \KeywordTok{paste}\NormalTok{(}\StringTok{"Within-class var = "}\NormalTok{, }\KeywordTok{round}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{diag}\NormalTok{(Ws)), }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{)),}
+                  \KeywordTok{paste}\NormalTok{(}\StringTok{"Between-class var = "}\NormalTok{, }\KeywordTok{round}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{diag}\NormalTok{(Bs)), }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{)),}
+                  \KeywordTok{paste}\NormalTok{(}\StringTok{"J-overlap = "}\NormalTok{, }\KeywordTok{round}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{diag}\NormalTok{(Ws))}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(}\KeywordTok{diag}\NormalTok{(Bs)), }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{))),}
+                \DataTypeTok{pch =} \KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\DecValTok{16}\NormalTok{, numGroups),}
+                        \KeywordTok{rep}\NormalTok{(}\DecValTok{9}\NormalTok{, numGroups),}
+                        \KeywordTok{rep}\NormalTok{(}\DecValTok{8}\NormalTok{, numGroups),}
+                        \KeywordTok{rep}\NormalTok{(}\DecValTok{18}\NormalTok{, }\KeywordTok{length}\NormalTok{(distCombs}\OperatorTok{$}\NormalTok{EuDistance)),}
+                        \KeywordTok{rep}\NormalTok{(}\DecValTok{15}\NormalTok{, }\DecValTok{3}\NormalTok{)),}
+                \DataTypeTok{col =} \KeywordTok{c}\NormalTok{(uniqueCols,}
+\NormalTok{                        uniqueCols,}
+\NormalTok{                        uniqueCols,}
+\NormalTok{                        distCombs}\OperatorTok{$}\NormalTok{colour,}
+                        \KeywordTok{rep}\NormalTok{(}\StringTok{"black"}\NormalTok{, }\DecValTok{3}\NormalTok{)),}
+                \DataTypeTok{cex=}\FloatTok{2.5}\NormalTok{, }\DataTypeTok{inset=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.02}\NormalTok{), }\DataTypeTok{bty =} \StringTok{"n"}\NormalTok{ ) }\CommentTok{#}
+
+       \CommentTok{#// draw the ellipsoids}
+       \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{numGroups) \{}
+
+\NormalTok{              ellips =}\StringTok{ }\NormalTok{rgl}\OperatorTok{::}\KeywordTok{ellipse3d}\NormalTok{(}\KeywordTok{cov}\NormalTok{(pts[[i]][ , }\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{]), }\DataTypeTok{centre =}\NormalTok{ ctrs[[i]][}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{], }\DataTypeTok{level =} \FloatTok{0.95}\NormalTok{)}
+
+\NormalTok{              rgl}\OperatorTok{::}\KeywordTok{shade3d}\NormalTok{(ellips, }\DataTypeTok{col =}\NormalTok{ uniqueCols[i], }\DataTypeTok{alpha =} \FloatTok{0.1}\NormalTok{, }\DataTypeTok{lit =} \FloatTok{0.95}\NormalTok{)}
+
+\NormalTok{              rgl}\OperatorTok{::}\KeywordTok{wire3d}\NormalTok{(ellips, }\DataTypeTok{col =} \StringTok{"black"}\NormalTok{, }\DataTypeTok{lit =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{alpha =} \FloatTok{0.2}\NormalTok{)}
+
+\NormalTok{              rgl}\OperatorTok{::}\KeywordTok{rgl.spheres}\NormalTok{(ctrs[[i]][}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{], }\DataTypeTok{r =} \KeywordTok{diff}\NormalTok{(xlim) }\OperatorTok{/}\StringTok{ }\DecValTok{40}\NormalTok{, }\DataTypeTok{col =}\NormalTok{ uniqueCols[i] )}
+
+              \CommentTok{#text3d(centers[[i]], texts = titles[i], cex = 2, adj = c(0,-1), col = "black" )}
+              \CommentTok{#if (i == numGroups) \{distin =  ctrs[[1]]\} else \{distin = ctrs[[i + 1]]\}}
+
+\NormalTok{       \}}
+
+       \CommentTok{#// draw the distance lines}
+       \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1} \OperatorTok{:}\StringTok{ }\KeywordTok{nrow}\NormalTok{(distCombs))}
+\NormalTok{       \{}
+\NormalTok{              rgl}\OperatorTok{::}\KeywordTok{lines3d}\NormalTok{(}\KeywordTok{rbind}\NormalTok{(ctrs[[distCombs}\OperatorTok{$}\NormalTok{firstGroup[i]]][}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{], ctrs[[distCombs}\OperatorTok{$}\NormalTok{secondGroup[i]]][}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{]),}
+                      \DataTypeTok{lwd =} \DecValTok{5}\NormalTok{,  }\DataTypeTok{col =}\NormalTok{ distCombs}\OperatorTok{$}\NormalTok{colour[i], }\DataTypeTok{lty =} \StringTok{"dashed"}\NormalTok{, }\DataTypeTok{alpha =} \FloatTok{0.8}\NormalTok{)}
+\NormalTok{       \}}
+
+\NormalTok{       rgl}\OperatorTok{::}\KeywordTok{play3d}\NormalTok{(rgl}\OperatorTok{::}\KeywordTok{spin3d}\NormalTok{(}\DataTypeTok{axis =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{)), }\DataTypeTok{duration =} \DecValTok{12}\NormalTok{ )}
+
+       \CommentTok{#rgl::snapshot3d(filename = "pca.png")}
+
+       \KeywordTok{cat}\NormalTok{(}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+
+       \KeywordTok{cat}\NormalTok{(}\StringTok{"Done. }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+
+       \KeywordTok{return}\NormalTok{(returnList)}
+
+
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}
